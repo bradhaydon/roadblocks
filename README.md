@@ -20,34 +20,33 @@ Or install it yourself as:
 
 ### Create a migration for the roadblocks gem
 
-```
-bundle exec rails generate add_roadblocks_to_users can_display:boolean roadblock_errors:text
+```bash
+$ bundle exec rails generate add_roadblocks_to_users can_display:boolean roadblock_errors:text
 ```
 
 ### Run the pending migrations
 
-```
-bundle exec rake db:migrate
+```bash
+$ bundle exec rake db:migrate
 ```
 
 ### Add roadblocks to your model
-```
-class User < ActiveRecord::Base
-	include Roadblocks
-	
-	roadblocks_for(:can_display) do
-   		roadblock_rule("hasn't been approved") { approved? }
-   		roadblock_rule("doesn't have an avatar") { avatar.present? }
-    	roadblock_rule("address is missing") { address.present? }
-	end
-  end
 
+```ruby
+class User < ActiveRecord::Base
+  include Roadblocks
+
+  roadblocks_for(:can_display) do
+    roadblock_rule("hasn't been approved") { approved? }
+    roadblock_rule("doesn't have an avatar") { avatar.present? }
+    roadblock_rule("address is missing") { address.present? }
+  end
 end
 ```
 
 ### Working with roadblocks
 
-```
+```irb
 > user.can_display?
 => false
 
